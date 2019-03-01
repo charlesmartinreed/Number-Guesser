@@ -1,7 +1,7 @@
 // Game values
 let min = 1,
 		max = 10,
-		winningNumber = 2,
+		winningNumber = getRandomNumber(min, max),
 		guessesLeft = 3;
 
 // UI Elements
@@ -15,6 +15,22 @@ const gameEl = document.querySelector('#game'),
 // assign the min and max in the corresponding spans
 minNumberEl.textContent = min;
 maxNumberEl.textContent = max;
+
+// play again event listener
+gameEl.addEventListener('mousedown', function(e){
+	//only occur if we're triggering our play again button
+	// using mousedown so that we don't immediately trigger - click treats mousedown and release as separate clicks
+	if(e.target.classList.contains('play-again')) {
+		//reload the page
+		window.location.reload();
+		console.log('reloading');
+	}
+});
+
+// GENERATE WINNING NUMBER
+function getRandomNumber(min, max) {
+	return Math.floor(Math.random() * (max-min+1)+min);
+}
 
 // create the event listener for our button
 guessBtn.addEventListener('click', function(){
@@ -54,6 +70,14 @@ function endGame(won, msg){
 
 
 		setMessage(msg, color);
+
+		// set value and class name for PLAY AGAIN
+		guessBtn.value = 'Play Again'
+		guessBtn.classList.add('play-again');
+
+		// new version of button needs new event listener, so we need to add a class
+		// we need to add listener to parent since the element was created AFTER load
+
 }
 
 function setMessage(msg, color) {
